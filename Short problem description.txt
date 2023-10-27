@@ -1,51 +1,50 @@
-Problem Description: Property Management System
+Problem Description: Real Estate Management System
 
 Overview:
-Our software development project aims to create a Property Management System for real estate management. The system will have two main user roles: Admin, Owners, and Customers. The system is designed to streamline property management, owner approval, offers, and communication between users.
+Our software development project is focused on the creation of a Real Estate Management System that caters to the diverse needs of property owners, potential buyers, and administrators. The system will facilitate property posting, offer management, and user communication while maintaining robust data security.
 
 Key Features:
 
-Admin Dashboard:
-The admin should have access to a dashboard for managing users and property-related activities.
-Owner Registration and Approval:
+Administrator's Dashboard:
 
-Owners need to register on the website.
-Admin approval is required for owners to post properties.
+The admin should have access to a central dashboard for efficiently managing users and overseeing property-related activities.
+Owner Registration and Verification:
 
-Property Management (CRUD):
-Owners can create, read, update, and delete properties.
-Properties in the 'pending' phase cannot be deleted.
-Owner Property Offers:
+Property owners must register on the website.
+Admin approval is required before owners can post properties.
+Property Listing and Maintenance (CRUD):
 
-Owners cannot submit offers on properties through the website.
+Owners can perform Create, Read, Update, and Delete (CRUD) operations on their property listings.
+Properties in the 'pending' status cannot be deleted.
+Owner Offers and Interactions:
 
-Offer Management:
-Admin can reject an offer if the owner does not accept it.
-If an offer is accepted by both parties during the 'pending' phase, the property status becomes 'contingent.'
-Customers can send general inquiries to property owners (not offers).
-The contingency can be canceled.
-Maintain a list of placed offers.
+Owners are not allowed to submit offers on properties through the website.
+Offer Handling:
 
+Admin has the authority to accept or reject offers, ensuring a secure and transparent process.
+Upon mutual acceptance during the 'pending' phase, property status transitions to 'contingent.'
+Customers can initiate general inquiries with property owners (excluding official offers).
+The 'contingency' status can be canceled.
+A record of placed offers is maintained.
 Customer Registration:
-Customers can register on the website.
-Customers cannot offer properties on the platform.
 
+Customers can register as users on the platform.
+Customers do not have the option to post properties.
 Customer Actions:
-Customers can check their offer history.
-Maintain a list of current offers placed.
-Offers cannot be canceled after they reach the 'contingency' phase.
-Download/Print receipts in PDF or Excel format.
-Place an offer, which changes the property status to 'pending.'
-Send messages to property owners.
-Maintain a saved list of properties.
 
+Customers can review their offer history.
+Maintain a list of their current offers.
+Offers cannot be canceled once they reach the 'contingency' phase.
+Offer receipts can be downloaded or printed in PDF or Excel formats.
+Initiating an offer changes the property status to 'pending.'
+Customers can engage in direct messaging with property owners.
+Property bookmarks can be saved in a designated list.
 General Functionality:
-Login/Logout functionality for all users.
-Implement security using JWT (users should not access unauthorized pages).
-Process verifications, such as sending purchase emails and messages.
-Optionally, implement refresh tokens.
-Validation is optional for certain data input fields.
 
-
+Robust user authentication with login/logout capabilities.
+Implementation of JWT security measures to restrict unauthorized access to different pages.
+Necessary process verifications, including email notifications for property purchases and in-app messaging.
+Optional implementation of refresh tokens for enhanced user experience.
+Data validation for user inputs is left as an optional feature.
 Overall Objective:
-The objective of this software development project is to create a comprehensive Property Management System that allows owners to manage their properties, customers to interact with property listings, and an admin to oversee and moderate the entire process. The system aims to provide a secure and efficient platform for property management, offer handling, and communication between users while ensuring data integrity and user privacy.
+The goal of this software development project is to craft a robust Real Estate Management System that caters to property owners, prospective buyers, and administrators. The system aims to streamline property management, facilitate offer negotiations, and enhance communication between users while upholding data security and user privacy.
