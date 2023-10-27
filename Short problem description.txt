@@ -1,0 +1,51 @@
+Problem Description: Property Management System
+
+Overview:
+Our software development project aims to create a Property Management System for real estate management. The system will have two main user roles: Admin, Owners, and Customers. The system is designed to streamline property management, owner approval, offers, and communication between users.
+
+Key Features:
+
+Admin Dashboard:
+The admin should have access to a dashboard for managing users and property-related activities.
+Owner Registration and Approval:
+
+Owners need to register on the website.
+Admin approval is required for owners to post properties.
+
+Property Management (CRUD):
+Owners can create, read, update, and delete properties.
+Properties in the 'pending' phase cannot be deleted.
+Owner Property Offers:
+
+Owners cannot submit offers on properties through the website.
+
+Offer Management:
+Admin can reject an offer if the owner does not accept it.
+If an offer is accepted by both parties during the 'pending' phase, the property status becomes 'contingent.'
+Customers can send general inquiries to property owners (not offers).
+The contingency can be canceled.
+Maintain a list of placed offers.
+
+Customer Registration:
+Customers can register on the website.
+Customers cannot offer properties on the platform.
+
+Customer Actions:
+Customers can check their offer history.
+Maintain a list of current offers placed.
+Offers cannot be canceled after they reach the 'contingency' phase.
+Download/Print receipts in PDF or Excel format.
+Place an offer, which changes the property status to 'pending.'
+Send messages to property owners.
+Maintain a saved list of properties.
+
+General Functionality:
+Login/Logout functionality for all users.
+Implement security using JWT (users should not access unauthorized pages).
+Process verifications, such as sending purchase emails and messages.
+Optionally, implement refresh tokens.
+Validation is optional for certain data input fields.
+
+
+Overall Objective:
+The objective of this software development project is to create a comprehensive Property Management System that allows owners to manage their properties, customers to interact with property listings, and an admin to oversee and moderate the entire process. The system aims to provide a secure and efficient platform for property management, offer handling, and communication between users while ensuring data integrity and user privacy.
