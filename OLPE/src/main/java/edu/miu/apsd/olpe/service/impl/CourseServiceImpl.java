@@ -4,12 +4,9 @@ import edu.miu.apsd.olpe.dto.CourseDto;
 import edu.miu.apsd.olpe.entity.Course;
 import edu.miu.apsd.olpe.repository.CourseRepository;
 import edu.miu.apsd.olpe.service.CourseService;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -30,6 +27,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDto addNewCourse(CourseDto newCourse) {
+
+        System.out.println("XXXXXXXXXXXXXXXXX"+newCourse.getInstructorId());
 
         Course res = courseRepository.save(new Course(
                 newCourse.getCourseId(),

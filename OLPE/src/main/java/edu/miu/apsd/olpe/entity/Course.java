@@ -16,7 +16,7 @@ public class Course {
 
     String courseId;
     String courseName;
-    String InstructorId;
+    String instructorId;
     Boolean courseApprovalStatus;
 
     public Course() {
@@ -31,7 +31,7 @@ public class Course {
         this.id = id;
         this.courseId = courseId;
         this.courseName = courseName;
-        InstructorId = instructorId;
+        this.instructorId = instructorId;
         this.courseApprovalStatus = courseApprovalStatus;
     }
 }

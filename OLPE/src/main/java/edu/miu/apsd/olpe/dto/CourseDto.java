@@ -11,6 +11,6 @@ public class CourseDto {
 
     String courseId;
     String courseName;
-    String InstructorId;
+    String instructorId;
     Boolean courseApprovalStatus;
 }
