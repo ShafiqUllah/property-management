@@ -40,4 +40,10 @@ public class CourseController {
     public ResponseEntity<CourseDto> updatePatient(@PathVariable Integer courseId, @RequestBody CourseDto editedPatient) {
         return new ResponseEntity<>(this.courseService.updateCourse(Long.valueOf(courseId), editedPatient), HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/delete/{courseId}")
+    public ResponseEntity<Void> deletePatient(@PathVariable Integer courseId) {
+        this.courseService.deleteCourseById(Long.valueOf(courseId));
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
