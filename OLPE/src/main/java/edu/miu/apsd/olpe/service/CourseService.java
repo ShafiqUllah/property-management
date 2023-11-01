@@ -7,7 +7,7 @@ import java.util.List;
 public interface CourseService {
     List<CourseDto> getAllCourses();
     CourseDto addNewCourse(CourseDto newCourse);
-    CourseDto getCourseId(Integer courseId);
-    void deleteCourseById(Integer courseId);
+    CourseDto getCourseById(Long courseId);
+    void deleteCourseById(Long courseId);
 
 }

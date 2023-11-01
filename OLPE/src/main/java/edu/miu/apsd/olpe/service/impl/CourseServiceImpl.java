@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -39,13 +40,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDto getCourseId(Integer courseId) {
-        return null;
+    public CourseDto getCourseById(Long courseId) {
+        Course res =  courseRepository.findById(courseId).orElseThrow();
+
+        return new CourseDto(res.getCourseId(),res.getCourseName(),res.getInstructorId(), res.getCourseApprovalStatus());
     }
 
     @Override
-    public void deleteCourseById(Integer courseId) {
-
+    public void deleteCourseById(Long courseId) {
+        courseRepository.deleteById(courseId);
     }
 
 
