@@ -19,4 +19,19 @@ public class Course {
     String InstructorId;
     Boolean courseApprovalStatus;
 
+    public Course() {
+        this(null, null,null,null,null);
+    }
+
+    public Course(String courseId, String courseName, String instructorId, Boolean courseApprovalStatus) {
+        this(null, courseId,courseName,instructorId,courseApprovalStatus);
+    }
+
+    public Course(Long id, String courseId, String courseName, String instructorId, Boolean courseApprovalStatus) {
+        this.id = id;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        InstructorId = instructorId;
+        this.courseApprovalStatus = courseApprovalStatus;
+    }
 }
