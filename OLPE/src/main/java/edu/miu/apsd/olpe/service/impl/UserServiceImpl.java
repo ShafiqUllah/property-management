@@ -32,8 +32,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto update(UserDto user) {
-        return null;
+    public UserDto update(Long userId,UserDto newUser) {
+        var user = userRepository.findById(userId).orElseThrow();
+
+        user.setName(newUser.getName());
+        user.setEmail(newUser.getEmail());
+        user.setRoles(newUser.getRoles());
+
+        userRepository.save(user);
+
+        return new UserDto(user.getName(),user.getEmail(),
+                user.getRoles());
+
     }
 
     @Override
