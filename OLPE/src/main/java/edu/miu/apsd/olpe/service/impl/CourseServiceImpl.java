@@ -28,7 +28,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDto addNewCourse(CourseDto newCourse) {
 
-        System.out.println("XXXXXXXXXXXXXXXXX"+newCourse.getInstructorId());
+//        System.out.println("XXXXXXXXXXXXXXXXX"+newCourse.getInstructorId());
 
         Course res = courseRepository.save(new Course(
                 newCourse.getCourseId(),

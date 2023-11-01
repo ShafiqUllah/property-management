@@ -1,6 +1,8 @@
 package edu.miu.apsd.olpe.service.impl;
 
+import edu.miu.apsd.olpe.dto.CourseDto;
 import edu.miu.apsd.olpe.dto.UserDto;
+import edu.miu.apsd.olpe.entity.Course;
 import edu.miu.apsd.olpe.entity.User;
 import edu.miu.apsd.olpe.repository.UserRepository;
 import edu.miu.apsd.olpe.service.UserService;
@@ -24,8 +26,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto add(UserDto user) {
-        return null;
+    public UserDto add(UserDto userDto,String password) {
+        User res = userRepository.save(new User(null, userDto.getName(),userDto.getEmail(),password,userDto.getRoles()));
+        return new UserDto(res.getName(),res.getEmail(),res.getRoles());
     }
 
     @Override
