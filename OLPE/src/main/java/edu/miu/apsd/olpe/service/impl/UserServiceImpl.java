@@ -21,7 +21,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(Long id) {
+        System.out.println("XXXXXXXXXXXX "+id);
         User user = this.userRepository.findById(id).orElseThrow();
+        System.out.println(user);
         return new UserDto(user.getName(), user.getEmail(), user.getRoles());
     }
 
@@ -48,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long id) {
-
+        this.userRepository.deleteById(id);
     }
 
     @Override

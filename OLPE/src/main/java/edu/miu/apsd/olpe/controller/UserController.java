@@ -26,17 +26,20 @@ public class UserController {
 
     @GetMapping(value = "/list")
     public ResponseEntity<Collection<UserDto>> listOfAllUsers() {
+        System.out.println("XXX list");
         return ResponseEntity.ok(this.userService.getAll());
 
     }
 
     @GetMapping(value = "/get/{userId}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Integer userId) throws UserNotFoundException {
+    public ResponseEntity<UserDto> getUserDetailsById(@PathVariable Integer userId) throws UserNotFoundException {
+        System.out.println("Get called");
         return ResponseEntity.ok(this.userService.getById(Long.valueOf(userId)));
     }
 
     @PostMapping(value = "/register/{password}")
     public ResponseEntity<UserDto> registerNewUser(@Valid @RequestBody UserDto newUser,@PathVariable String password) {
+        System.out.println("reg called");
         return new ResponseEntity<>(this.userService.add(newUser,password), HttpStatus.CREATED);
     }
 
@@ -47,7 +50,8 @@ public class UserController {
 
     @DeleteMapping(value = "/delete/{userId}")
     public ResponseEntity<Void> deleteUserById(@PathVariable Integer userId) {
+        System.out.println("Delete called");
         this.userService.delete(Long.valueOf(userId));
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
