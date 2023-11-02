@@ -44,6 +44,6 @@ public class CourseController {
     @DeleteMapping(value = "/delete/{courseId}")
     public ResponseEntity<Void> deletePatient(@PathVariable Integer courseId) {
         this.courseService.deleteCourseById(Long.valueOf(courseId));
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
