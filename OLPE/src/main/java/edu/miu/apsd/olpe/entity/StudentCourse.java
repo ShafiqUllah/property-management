@@ -19,7 +19,7 @@ public class StudentCourse {
     Course course;
 
     Boolean status;
-    LocalDate courseOfferInBlock;
+    LocalDate dateBlock;
     Boolean bookmark;
 
 }
