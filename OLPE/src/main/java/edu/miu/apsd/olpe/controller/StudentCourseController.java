@@ -42,6 +42,7 @@ public class StudentCourseController {
         return new ResponseEntity<>(this.studentCourseService.updateStudentCourse(Long.valueOf(studentCourseId), editedStudentCourse), HttpStatus.OK);
     }
 
+    //Cancel by Admin
     @DeleteMapping(value = "/delete/{studentCourseId}")
     public ResponseEntity<Void> deleteStudentCourse(@PathVariable Integer studentCourseId) {
         this.studentCourseService.deleteStudentCourseById(Long.valueOf(studentCourseId));
@@ -58,7 +59,7 @@ public class StudentCourseController {
 
 
     //Get all studentCourse list with studentId
-    @GetMapping(value = "/get/{studentId}")
+    @GetMapping(value = "/get_all/{studentId}")
     public ResponseEntity<List<StudentCourseDto>> getStudentCourseByStudentOrUserId(@PathVariable Integer studentId) throws StudentCourseNotFoundException {
         List<StudentCourseDto> studentCourseDtoList = this.studentCourseService.getAllStudentCoursesList()
                 .stream()
@@ -70,5 +71,41 @@ public class StudentCourseController {
 
                 }).toList();
         return ResponseEntity.ok(studentCourseDtoList);
+    }
+
+    //Get only approved studentCourse list with studentId
+    @GetMapping(value = "/get_all/approved/{studentId}")
+    public ResponseEntity<List<StudentCourseDto>> getStudentCourseByStudentOrUserIdOnlyApproved(@PathVariable Integer studentId) throws StudentCourseNotFoundException {
+        List<StudentCourseDto> studentCourseDtoList = this.studentCourseService.getAllStudentCoursesList()
+                .stream()
+                .filter(a->{
+                    if ((a.getUser().getId() == Long.valueOf(studentId)) && a.getStatus() == true)
+                        return true;
+                    else
+                        return false;
+                })
+                .toList();
+        return ResponseEntity.ok(studentCourseDtoList);
+    }
+
+    //Cancel StudentCourse by Student if in pending status
+    @DeleteMapping(value = "/delete/pending/{studentCourseId}")
+    public ResponseEntity<Void> deleteStudentCourseByStudent(@PathVariable Integer studentCourseId) {
+        StudentCourseDto studentCourseDto = this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
+        if(studentCourseDto.getStatus() == false){
+            this.studentCourseService.deleteStudentCourseById(Long.valueOf(studentCourseId));
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+
+    //Bookmark course by student
+    @PutMapping(value =  "/update/bookmark/{studentCourseId}")
+    public ResponseEntity<StudentCourseDto> bookmarkStudentCourseByStudent(@PathVariable Integer studentCourseId) {
+        StudentCourseDto editedStudentCourse = this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
+        editedStudentCourse.setBookmark(true);
+        return new ResponseEntity<>(this.studentCourseService.updateStudentCourse(Long.valueOf(studentCourseId), editedStudentCourse), HttpStatus.OK);
     }
 }
