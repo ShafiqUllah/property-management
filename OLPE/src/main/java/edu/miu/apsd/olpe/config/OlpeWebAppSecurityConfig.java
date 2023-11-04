@@ -1,6 +1,7 @@
 package edu.miu.apsd.olpe.config;
 
 
+import edu.miu.apsd.olpe.entity.RoleTypes;
 import edu.miu.apsd.olpe.filter.JWTAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,34 @@ public class OlpeWebAppSecurityConfig {
     private UserDetailsService olpeUserDetailsService;
     private JWTAuthFilter jwtAuthFilter;
 
+    String [] roles = {RoleTypes.ROLE_ADMIN.toString(), RoleTypes.ROLE_Teacher.toString(), RoleTypes.ROLE_Student.toString()};
+    String [] unsecuredUrls = {
+            "/olpeApp/api/v1/service/public/**"};
+
+    String [] genericLoggedInUserUrls = {
+            "/olpeApp/api/v1/service/public/authenticate"
+    };
+    String [] adminUrls = {
+            "/olpeApp/api/v1/service/private/**"
+
+    };
+    String [] teacherUrls = {
+            "/olpeApp/api/v1/service/private/courses/list",
+            "/olpeApp/api/v1/service/private/courses/list_approved",
+            "/olpeApp/api/v1/service/private/courses/get/**",
+            "/olpeApp/api/v1/service/private/courses/update/**",
+            "/olpeApp/api/v1/service/private/courses/delete/**"
+    };
+    String [] studentUrls = {
+            "/olpeApp/api/v1/service/private/student_courses/list",
+            "/olpeApp/api/v1/service/private/student_courses/get/**",
+            "/olpeApp/api/v1/service/private/student_courses/register",
+            "/olpeApp/api/v1/service/private/student_courses/get_all/**",
+            "/olpeApp/api/v1/service/private/student_courses/delete/pending/**",
+            "/olpeApp/api/v1/service/private/student_courses/update/bookmark/**"
+    };
+
+
     public OlpeWebAppSecurityConfig(UserDetailsService adsUserDetailsService,
                                     JWTAuthFilter jwtAuthFilter) {
         this.olpeUserDetailsService = adsUserDetailsService;
@@ -39,10 +68,14 @@ public class OlpeWebAppSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> {
-                            auth.
-                                    //requestMatchers("/**").permitAll()
-                                    requestMatchers("/olpeApp/api/v1/service/public/**").permitAll()
-                                    .requestMatchers("/olpeApp/api/v1/service/private/**","/olpeApp/api/v1/service/private/***").authenticated()
+                            auth
+//                                    .requestMatchers("/olpeApp/api/v1/service/public/**").permitAll()
+//                                    .requestMatchers("/olpeApp/api/v1/service/private/**").authenticated()
+                                    .requestMatchers(unsecuredUrls).permitAll()
+                                    .requestMatchers(genericLoggedInUserUrls).hasAnyAuthority(roles)
+                                    .requestMatchers(teacherUrls).hasAnyAuthority(RoleTypes.ROLE_Teacher.toString(), RoleTypes.ROLE_ADMIN.toString())
+                                    .requestMatchers(studentUrls).hasAnyAuthority(RoleTypes.ROLE_ADMIN.toString(), RoleTypes.ROLE_Student.toString())
+                                    .requestMatchers(adminUrls).hasAuthority(RoleTypes.ROLE_ADMIN.toString())
                             ;
                         }
                 )

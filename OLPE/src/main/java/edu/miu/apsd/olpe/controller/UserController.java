@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "olpeApp/api/v1/service/private" )
+@RequestMapping(value = "olpeApp/api/v1/service/private/users" )
 public class UserController {
 
     UserService userService;

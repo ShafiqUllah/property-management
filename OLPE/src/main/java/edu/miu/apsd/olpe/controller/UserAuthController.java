@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value ={ "/olpeApp/api/v1/service"})
+@RequestMapping(value ={ "/olpeApp/api/v1/service/public"})
 public class UserAuthController {
     private JWTManagementUtilityService jwtManagementUtilityService;
     private AuthenticationManager authenticationManager;
@@ -22,7 +22,7 @@ public class UserAuthController {
         this.authenticationManager = authenticationManager;
     }
 
-    @PostMapping(value = {"/public/authenticate"})
+    @PostMapping(value = {"/authenticate"})
     public String authenticateUser(@Valid @RequestBody UserAuthRequest userAuthRequest) throws Exception {
         try {
             authenticationManager.authenticate(
