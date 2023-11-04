@@ -2,6 +2,7 @@ package edu.miu.apsd.olpe.service.impl;
 
 import edu.miu.apsd.olpe.dto.CourseDto;
 import edu.miu.apsd.olpe.entity.Course;
+import edu.miu.apsd.olpe.exception.CourseNotFoundException;
 import edu.miu.apsd.olpe.repository.CourseRepository;
 import edu.miu.apsd.olpe.service.CourseService;
 import org.springframework.stereotype.Service;
@@ -39,8 +40,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDto getCourseById(Long courseId) {
-        Course res =  courseRepository.findById(courseId).orElseThrow();
+    public CourseDto getCourseById(Long courseId) throws CourseNotFoundException {
+        Course res =  courseRepository.findById(courseId).orElseThrow(()->new CourseNotFoundException("DATA not found"));
 
         return new CourseDto(res.getCourseId(),res.getCourseName(),res.getInstructorId(), res.getCourseApprovalStatus());
     }

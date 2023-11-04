@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/olpeApp/api/v1/courses" )
+@RequestMapping(value = "olpeApp/api/v1/service/private/courses" )
 public class CourseController {
 
     CourseService courseService;
@@ -52,7 +52,7 @@ public class CourseController {
 
     //Course cancel by admin/delete
     @DeleteMapping(value = "/delete/{courseId}")
-    public ResponseEntity<Void> deletePatient(@PathVariable Integer courseId) {
+    public ResponseEntity<Void> deletePatient(@PathVariable Integer courseId) throws CourseNotFoundException {
         CourseDto courseDto = this.courseService.getCourseById(Long.valueOf(courseId));
         if(courseDto.getCourseApprovalStatus()){
             this.courseService.deleteCourseById(Long.valueOf(courseId));
@@ -64,7 +64,7 @@ public class CourseController {
     }
 
     @PutMapping(value =  "/approve/{courseId}")
-    public ResponseEntity<CourseDto> approveCourse(@PathVariable Integer courseId) {
+    public ResponseEntity<CourseDto> approveCourse(@PathVariable Integer courseId) throws CourseNotFoundException {
         CourseDto courseDto = this.courseService.getCourseById(Long.valueOf(courseId));
         courseDto.setCourseApprovalStatus(true);
         return new ResponseEntity<>(this.courseService.updateCourse(Long.valueOf(courseId),courseDto), HttpStatus.OK);

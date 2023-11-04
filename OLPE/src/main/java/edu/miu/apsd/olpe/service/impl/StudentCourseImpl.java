@@ -3,6 +3,7 @@ package edu.miu.apsd.olpe.service.impl;
 import edu.miu.apsd.olpe.dto.CourseDto;
 import edu.miu.apsd.olpe.dto.StudentCourseDto;
 import edu.miu.apsd.olpe.entity.StudentCourse;
+import edu.miu.apsd.olpe.exception.StudentCourseNotFoundException;
 import edu.miu.apsd.olpe.repository.StudentCourseRepository;
 import edu.miu.apsd.olpe.service.StudentCourseService;
 import org.springframework.stereotype.Service;
@@ -41,8 +42,8 @@ public class StudentCourseImpl implements StudentCourseService {
     }
 
     @Override
-    public StudentCourseDto getStudentCourseById(Long studentCourseId) {
-        StudentCourse studentCourse = this.studentCourseRepository.findById(studentCourseId).orElseThrow();
+    public StudentCourseDto getStudentCourseById(Long studentCourseId) throws StudentCourseNotFoundException {
+        StudentCourse studentCourse = this.studentCourseRepository.findById(studentCourseId).orElseThrow(()->new StudentCourseNotFoundException("Data Not found"));
 
         return new StudentCourseDto(studentCourse.getUser(),
                 studentCourse.getCourse(),studentCourse.getStatus(),studentCourse.getDateBlock(),

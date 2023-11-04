@@ -1,9 +1,8 @@
 package edu.miu.apsd.olpe.service.impl;
 
-import edu.miu.apsd.olpe.dto.CourseDto;
 import edu.miu.apsd.olpe.dto.UserDto;
-import edu.miu.apsd.olpe.entity.Course;
 import edu.miu.apsd.olpe.entity.User;
+import edu.miu.apsd.olpe.exception.UserNotFoundException;
 import edu.miu.apsd.olpe.repository.UserRepository;
 import edu.miu.apsd.olpe.service.UserService;
 import org.springframework.stereotype.Service;
@@ -20,30 +19,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getById(Long id) {
+    public UserDto getById(Long id) throws UserNotFoundException {
         System.out.println("XXXXXXXXXXXX "+id);
-        User user = this.userRepository.findById(id).orElseThrow();
+        User user = this.userRepository.findById(id).orElseThrow(()->new UserNotFoundException("User Data not found"));
         System.out.println(user);
-        return new UserDto(user.getName(), user.getEmail(), user.getRoles());
+        return new UserDto(user.getUsername(), user.getPassword(), user.getRoles());
     }
 
     @Override
     public UserDto add(UserDto userDto,String password) {
-        User res = userRepository.save(new User(null, userDto.getName(),userDto.getEmail(),password,userDto.getRoles()));
-        return new UserDto(res.getName(),res.getEmail(),res.getRoles());
+        User res = userRepository.save(new User(userDto.getUserName(),userDto.getPassword()));
+        return new UserDto(res.getUsername(), res.getPassword(),res.getRoles());
     }
 
     @Override
     public UserDto update(Long userId,UserDto newUser) {
         var user = userRepository.findById(userId).orElseThrow();
 
-        user.setName(newUser.getName());
-        user.setEmail(newUser.getEmail());
+        user.setFirstName(newUser.getUserName());
+        user.setEmail(newUser.getPassword());
         user.setRoles(newUser.getRoles());
 
         userRepository.save(user);
 
-        return new UserDto(user.getName(),user.getEmail(),
+        return new UserDto(user.getFullName(),user.getEmail(),
                 user.getRoles());
 
     }
@@ -56,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Collection<UserDto> getAll() {
        return this.userRepository.findAll().stream()
-               .map(u->new UserDto(u.getName(),u.getEmail(),u.getRoles()))
+               .map(u->new UserDto(u.getFullName(),u.getEmail(),u.getRoles()))
                .toList();
     }
 }

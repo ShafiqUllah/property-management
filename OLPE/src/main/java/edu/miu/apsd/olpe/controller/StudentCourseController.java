@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/olpeApp/api/v1/student_courses" )
+@RequestMapping(value = "olpeApp/api/v1/service/private/student_courses" )
 public class StudentCourseController {
     StudentCourseService studentCourseService;
 
@@ -51,7 +51,7 @@ public class StudentCourseController {
 
     //Approve a course for a student
     @PutMapping(value =  "/approve/{studentCourseId}")
-    public ResponseEntity<StudentCourseDto> ApproveStudentCourse(@PathVariable Integer studentCourseId) {
+    public ResponseEntity<StudentCourseDto> ApproveStudentCourse(@PathVariable Integer studentCourseId) throws StudentCourseNotFoundException {
         StudentCourseDto editedStudentCourse =  this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
         editedStudentCourse.setStatus(true);
         return new ResponseEntity<>(this.studentCourseService.updateStudentCourse(Long.valueOf(studentCourseId), editedStudentCourse), HttpStatus.OK);
@@ -64,7 +64,7 @@ public class StudentCourseController {
         List<StudentCourseDto> studentCourseDtoList = this.studentCourseService.getAllStudentCoursesList()
                 .stream()
                 .filter(a->{
-                    if (a.getUser().getId() == Long.valueOf(studentId))
+                    if (a.getUser().getUserId() == studentId)
                         return true;
                     else
                         return false;
@@ -79,7 +79,7 @@ public class StudentCourseController {
         List<StudentCourseDto> studentCourseDtoList = this.studentCourseService.getAllStudentCoursesList()
                 .stream()
                 .filter(a->{
-                    if ((a.getUser().getId() == Long.valueOf(studentId)) && a.getStatus() == true)
+                    if ((a.getUser().getUserId() == studentId) && a.getStatus() == true)
                         return true;
                     else
                         return false;
@@ -90,7 +90,7 @@ public class StudentCourseController {
 
     //Cancel StudentCourse by Student if in pending status
     @DeleteMapping(value = "/delete/pending/{studentCourseId}")
-    public ResponseEntity<Void> deleteStudentCourseByStudent(@PathVariable Integer studentCourseId) {
+    public ResponseEntity<Void> deleteStudentCourseByStudent(@PathVariable Integer studentCourseId) throws StudentCourseNotFoundException {
         StudentCourseDto studentCourseDto = this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
         if(studentCourseDto.getStatus() == false){
             this.studentCourseService.deleteStudentCourseById(Long.valueOf(studentCourseId));
@@ -103,7 +103,7 @@ public class StudentCourseController {
 
     //Bookmark course by student
     @PutMapping(value =  "/update/bookmark/{studentCourseId}")
-    public ResponseEntity<StudentCourseDto> bookmarkStudentCourseByStudent(@PathVariable Integer studentCourseId) {
+    public ResponseEntity<StudentCourseDto> bookmarkStudentCourseByStudent(@PathVariable Integer studentCourseId) throws StudentCourseNotFoundException {
         StudentCourseDto editedStudentCourse = this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
         editedStudentCourse.setBookmark(true);
         return new ResponseEntity<>(this.studentCourseService.updateStudentCourse(Long.valueOf(studentCourseId), editedStudentCourse), HttpStatus.OK);

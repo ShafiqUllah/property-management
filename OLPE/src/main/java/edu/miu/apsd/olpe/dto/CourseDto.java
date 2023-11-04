@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class CourseDto {
-
     String courseId;
     String courseName;
     User instructorId;
