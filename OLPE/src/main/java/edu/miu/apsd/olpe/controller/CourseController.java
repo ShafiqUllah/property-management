@@ -50,6 +50,7 @@ public class CourseController {
         return new ResponseEntity<>(this.courseService.updateCourse(Long.valueOf(courseId), editedCourse), HttpStatus.OK);
     }
 
+    //Course cancel by admin/delete
     @DeleteMapping(value = "/delete/{courseId}")
     public ResponseEntity<Void> deletePatient(@PathVariable Integer courseId) {
         CourseDto courseDto = this.courseService.getCourseById(Long.valueOf(courseId));

@@ -47,4 +47,28 @@ public class StudentCourseController {
         this.studentCourseService.deleteStudentCourseById(Long.valueOf(studentCourseId));
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    //Approve a course for a student
+    @PutMapping(value =  "/approve/{studentCourseId}")
+    public ResponseEntity<StudentCourseDto> ApproveStudentCourse(@PathVariable Integer studentCourseId) {
+        StudentCourseDto editedStudentCourse =  this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
+        editedStudentCourse.setStatus(true);
+        return new ResponseEntity<>(this.studentCourseService.updateStudentCourse(Long.valueOf(studentCourseId), editedStudentCourse), HttpStatus.OK);
+    }
+
+
+    //Get all studentCourse list with studentId
+    @GetMapping(value = "/get/{studentId}")
+    public ResponseEntity<List<StudentCourseDto>> getStudentCourseByStudentOrUserId(@PathVariable Integer studentId) throws StudentCourseNotFoundException {
+        List<StudentCourseDto> studentCourseDtoList = this.studentCourseService.getAllStudentCoursesList()
+                .stream()
+                .filter(a->{
+                    if (a.getUser().getId() == Long.valueOf(studentId))
+                        return true;
+                    else
+                        return false;
+
+                }).toList();
+        return ResponseEntity.ok(studentCourseDtoList);
+    }
 }
