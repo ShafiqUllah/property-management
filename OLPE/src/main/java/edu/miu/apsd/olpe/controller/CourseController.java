@@ -26,6 +26,15 @@ public class CourseController {
 
     }
 
+    @GetMapping(value = "/list_approved")
+    public ResponseEntity<List<CourseDto>> listOfAllApprovedCourses() {
+        return ResponseEntity.ok(this.courseService.getAllCourses()
+                .stream()
+                .filter(CourseDto::getCourseApprovalStatus)
+                .toList());
+
+    }
+
     @GetMapping(value = "/get/{courseId}")
     public ResponseEntity<CourseDto> getPatientById(@PathVariable Integer courseId) throws CourseNotFoundException {
         return ResponseEntity.ok(this.courseService.getCourseById(Long.valueOf(courseId)));
@@ -37,13 +46,26 @@ public class CourseController {
     }
 
     @PutMapping(value =  "/update/{courseId}")
-    public ResponseEntity<CourseDto> updatePatient(@PathVariable Integer courseId, @RequestBody CourseDto editedPatient) {
-        return new ResponseEntity<>(this.courseService.updateCourse(Long.valueOf(courseId), editedPatient), HttpStatus.OK);
+    public ResponseEntity<CourseDto> updateCourse(@PathVariable Integer courseId, @RequestBody CourseDto editedCourse) {
+        return new ResponseEntity<>(this.courseService.updateCourse(Long.valueOf(courseId), editedCourse), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/delete/{courseId}")
     public ResponseEntity<Void> deletePatient(@PathVariable Integer courseId) {
-        this.courseService.deleteCourseById(Long.valueOf(courseId));
-        return new ResponseEntity<>(HttpStatus.OK);
+        CourseDto courseDto = this.courseService.getCourseById(Long.valueOf(courseId));
+        if(courseDto.getCourseApprovalStatus()){
+            this.courseService.deleteCourseById(Long.valueOf(courseId));
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+
+    }
+
+    @PutMapping(value =  "/approve/{courseId}")
+    public ResponseEntity<CourseDto> approveCourse(@PathVariable Integer courseId) {
+        CourseDto courseDto = this.courseService.getCourseById(Long.valueOf(courseId));
+        courseDto.setCourseApprovalStatus(true);
+        return new ResponseEntity<>(this.courseService.updateCourse(Long.valueOf(courseId),courseDto), HttpStatus.OK);
     }
 }
