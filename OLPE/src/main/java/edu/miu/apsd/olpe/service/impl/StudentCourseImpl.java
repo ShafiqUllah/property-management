@@ -22,7 +22,7 @@ public class StudentCourseImpl implements StudentCourseService {
 
     @Override
     public List<StudentCourseDto> getAllStudentCoursesList() {
-        return this.studentCourseRepository.findAll().stream().map(s-> new StudentCourseDto(s.getUser(),
+        return this.studentCourseRepository.findAll().stream().map(s-> new StudentCourseDto(s.getStudent_id(),
                 s.getCourse(), s.getStatus(),s.getDateBlock(), s.getBookmark())).toList();
     }
 
@@ -34,7 +34,7 @@ public class StudentCourseImpl implements StudentCourseService {
                 newStudentCourse.getStatus(),
                 newStudentCourse.getDateBlock(),
                 newStudentCourse.getBookmark()));
-        return new StudentCourseDto(studentCourse.getUser(),
+        return new StudentCourseDto(studentCourse.getStudent_id(),
                 studentCourse.getCourse(),
                 studentCourse.getStatus(),
                 studentCourse.getDateBlock(),
@@ -45,7 +45,7 @@ public class StudentCourseImpl implements StudentCourseService {
     public StudentCourseDto getStudentCourseById(Long studentCourseId) throws StudentCourseNotFoundException {
         StudentCourse studentCourse = this.studentCourseRepository.findById(studentCourseId).orElseThrow(()->new StudentCourseNotFoundException("Data Not found"));
 
-        return new StudentCourseDto(studentCourse.getUser(),
+        return new StudentCourseDto(studentCourse.getStudent_id(),
                 studentCourse.getCourse(),studentCourse.getStatus(),studentCourse.getDateBlock(),
                 studentCourse.getBookmark());
     }
@@ -59,14 +59,14 @@ public class StudentCourseImpl implements StudentCourseService {
     public StudentCourseDto updateStudentCourse(Long studentCourseId, StudentCourseDto editedStudentCourse) {
         var studentCourse = studentCourseRepository.findById(studentCourseId).orElseThrow();
 
-        studentCourse.setUser(editedStudentCourse.getUser());
+        studentCourse.setStudent_id(editedStudentCourse.getUser());
         studentCourse.setCourse(editedStudentCourse.getCourse());
         studentCourse.setStatus(editedStudentCourse.getStatus());
         studentCourse.setDateBlock(editedStudentCourse.getDateBlock());
         studentCourse.setBookmark(editedStudentCourse.getBookmark());
         studentCourseRepository.save(studentCourse);
 
-        return new StudentCourseDto(studentCourse.getUser(),
+        return new StudentCourseDto(studentCourse.getStudent_id(),
                 studentCourse.getCourse(),studentCourse.getStatus(),studentCourse.getDateBlock(),
                 studentCourse.getBookmark());
 

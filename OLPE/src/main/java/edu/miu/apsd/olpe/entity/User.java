@@ -1,6 +1,8 @@
 package edu.miu.apsd.olpe.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -37,6 +39,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Email can't be empty")
     private String email;
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable (
             name = "user_roles",
@@ -44,6 +47,10 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "roleId")}
     )
     private List<Role> roles;
+
+//    @ManyToOne
+//    @JoinColumn(name = "instructors")
+//    private Course course;
 
     //Data field for UserDetails
     private boolean accountNonExpired;

@@ -1,5 +1,6 @@
 package edu.miu.apsd.olpe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,6 +22,8 @@ public class Role {
     @Column(nullable = false, unique = true)
     @NotBlank
     private String roleName;
+
+
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 

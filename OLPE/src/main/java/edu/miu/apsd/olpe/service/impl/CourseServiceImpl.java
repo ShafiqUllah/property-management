@@ -22,28 +22,28 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseDto> getAllCourses() {
         return courseRepository.findAll().stream()
-                .map(c -> new CourseDto(c.getCourseId(), c.getCourseName(), c.getInstructorId(),c.getCourseApprovalStatus()))
+                .map(c -> new CourseDto(c.getCourseCode(), c.getCourseName(), c.getInstructor(),c.getCourseApprovalStatus()))
                 .toList();
     }
 
     @Override
     public CourseDto addNewCourse(CourseDto newCourse) {
 
-//        System.out.println("XXXXXXXXXXXXXXXXX"+newCourse.getInstructorId());
+        System.out.println("XXXXXXXXXXXXXXXXX"+" addNewCourse");
 
         Course res = courseRepository.save(new Course(
-                newCourse.getCourseId(),
+                newCourse.getCourseCode(),
                 newCourse.getCourseName(),
-                newCourse.getInstructorId(),
+                newCourse.getInstructor(),
                 newCourse.getCourseApprovalStatus()));
-        return new CourseDto(res.getCourseId(),res.getCourseName(),res.getInstructorId(), res.getCourseApprovalStatus());
+        return new CourseDto(res.getCourseCode(),res.getCourseName(),res.getInstructor(), res.getCourseApprovalStatus());
     }
 
     @Override
     public CourseDto getCourseById(Long courseId) throws CourseNotFoundException {
         Course res =  courseRepository.findById(courseId).orElseThrow(()->new CourseNotFoundException("DATA not found"));
 
-        return new CourseDto(res.getCourseId(),res.getCourseName(),res.getInstructorId(), res.getCourseApprovalStatus());
+        return new CourseDto(res.getCourseCode(),res.getCourseName(),res.getInstructor(), res.getCourseApprovalStatus());
     }
 
     @Override
@@ -55,14 +55,14 @@ public class CourseServiceImpl implements CourseService {
     public CourseDto updateCourse(Long courseId, CourseDto editedCourse) {
         var course = courseRepository.findById(courseId).orElseThrow();
 
-        course.setCourseId(editedCourse.getCourseId());
+        course.setCourseCode(editedCourse.getCourseCode());
         course.setCourseName(editedCourse.getCourseName());
-        course.setInstructorId(editedCourse.getInstructorId());
+        course.setInstructor(editedCourse.getInstructor());
         course.setCourseApprovalStatus(editedCourse.getCourseApprovalStatus());
         courseRepository.save(course);
 
-        return new CourseDto(course.getCourseId(),course.getCourseName(),
-                course.getInstructorId(), course.getCourseApprovalStatus());
+        return new CourseDto(course.getCourseCode(),course.getCourseName(),
+                course.getInstructor(), course.getCourseApprovalStatus());
     }
 
 

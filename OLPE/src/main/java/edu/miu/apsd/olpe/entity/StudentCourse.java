@@ -17,7 +17,7 @@ public class StudentCourse {
     Long id;
 
     @ManyToOne
-    User user;
+    User student_id;
 
     @ManyToOne
     Course course;

@@ -4,6 +4,8 @@ package edu.miu.apsd.olpe.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 public class Course {
@@ -11,26 +13,29 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String courseId;
+    String courseCode;
     String courseName;
 
     @ManyToOne
-    User instructorId;
+    @JoinColumn(name = "user_id")
+    User instructor;
     Boolean courseApprovalStatus;
 
     public Course() {
-        this(null, null,null,null,null);
+        this(null,null,null,null,null);
+
     }
 
-    public Course(String courseId, String courseName, User instructorId, Boolean courseApprovalStatus) {
-        this(null, courseId,courseName,instructorId,courseApprovalStatus);
+    public Course(String courseCode, String courseName, User instructor, Boolean courseApprovalStatus) {
+
+        this(null,courseCode,courseName,instructor,courseApprovalStatus);
     }
 
-    public Course(Long id, String courseId, String courseName, User instructorId, Boolean courseApprovalStatus) {
+    public Course(Long id, String courseCode, String courseName, User instructor, Boolean courseApprovalStatus) {
         this.id = id;
-        this.courseId = courseId;
+        this.courseCode = courseCode;
         this.courseName = courseName;
-        this.instructorId = instructorId;
+        this.instructor = instructor;
         this.courseApprovalStatus = courseApprovalStatus;
     }
 }

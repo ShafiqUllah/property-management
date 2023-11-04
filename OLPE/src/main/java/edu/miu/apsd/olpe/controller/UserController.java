@@ -37,10 +37,10 @@ public class UserController {
         return ResponseEntity.ok(this.userService.getById(Long.valueOf(userId)));
     }
 
-    @PostMapping(value = "/register/{password}")
-    public ResponseEntity<UserDto> registerNewUser(@Valid @RequestBody UserDto newUser,@PathVariable String password) {
+    @PostMapping(value = "/register")
+    public ResponseEntity<UserDto> registerNewUser(@Valid @RequestBody UserDto newUser) {
         System.out.println("reg called");
-        return new ResponseEntity<>(this.userService.add(newUser,password), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.userService.add(newUser), HttpStatus.CREATED);
     }
 
     @PutMapping(value =  "/update/{userId}")

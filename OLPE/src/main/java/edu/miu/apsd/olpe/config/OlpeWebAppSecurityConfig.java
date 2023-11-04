@@ -28,7 +28,7 @@ public class OlpeWebAppSecurityConfig {
     private UserDetailsService olpeUserDetailsService;
     private JWTAuthFilter jwtAuthFilter;
 
-    String [] roles = {RoleTypes.ROLE_ADMIN.toString(), RoleTypes.ROLE_Teacher.toString(), RoleTypes.ROLE_Student.toString()};
+    String [] roles = {RoleTypes.ROLE_ADMIN.toString(), RoleTypes.ROLE_TEACHER.toString(), RoleTypes.ROLE_STUDENT.toString()};
     String [] unsecuredUrls = {
             "/olpeApp/api/v1/service/public/**"};
 
@@ -73,8 +73,8 @@ public class OlpeWebAppSecurityConfig {
 //                                    .requestMatchers("/olpeApp/api/v1/service/private/**").authenticated()
                                     .requestMatchers(unsecuredUrls).permitAll()
                                     .requestMatchers(genericLoggedInUserUrls).hasAnyAuthority(roles)
-                                    .requestMatchers(teacherUrls).hasAnyAuthority(RoleTypes.ROLE_Teacher.toString(), RoleTypes.ROLE_ADMIN.toString())
-                                    .requestMatchers(studentUrls).hasAnyAuthority(RoleTypes.ROLE_ADMIN.toString(), RoleTypes.ROLE_Student.toString())
+                                    .requestMatchers(teacherUrls).hasAnyAuthority(RoleTypes.ROLE_TEACHER.toString(), RoleTypes.ROLE_ADMIN.toString())
+                                    .requestMatchers(studentUrls).hasAnyAuthority(RoleTypes.ROLE_ADMIN.toString(), RoleTypes.ROLE_STUDENT.toString())
                                     .requestMatchers(adminUrls).hasAuthority(RoleTypes.ROLE_ADMIN.toString())
                             ;
                         }

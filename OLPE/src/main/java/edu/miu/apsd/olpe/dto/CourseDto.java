@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class CourseDto {
-    String courseId;
+    String courseCode;
     String courseName;
-    User instructorId;
+    User instructor;
     Boolean courseApprovalStatus;
 }

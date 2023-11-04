@@ -5,6 +5,7 @@ import edu.miu.apsd.olpe.entity.User;
 import edu.miu.apsd.olpe.exception.UserNotFoundException;
 import edu.miu.apsd.olpe.repository.UserRepository;
 import edu.miu.apsd.olpe.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.Collection;
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
+    PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -27,16 +29,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto add(UserDto userDto,String password) {
-        User res = userRepository.save(new User(userDto.getUserName(),userDto.getPassword()));
-        return new UserDto(res.getUsername(), res.getPassword(),res.getRoles());
+    public UserDto add(UserDto userDto) {
+
+        User res = new User(userDto.getUsername(),
+                passwordEncoder.encode(userDto.getPassword()));
+        res.setRoles(userDto.getRoles());
+        User res2 = userRepository.save(res);
+        return new UserDto(res2.getUsername(), res2.getPassword(),res2.getRoles());
     }
 
     @Override
     public UserDto update(Long userId,UserDto newUser) {
         var user = userRepository.findById(userId).orElseThrow();
 
-        user.setFirstName(newUser.getUserName());
+        user.setFirstName(newUser.getUsername());
         user.setEmail(newUser.getPassword());
         user.setRoles(newUser.getRoles());
 
@@ -55,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Collection<UserDto> getAll() {
        return this.userRepository.findAll().stream()
-               .map(u->new UserDto(u.getFullName(),u.getEmail(),u.getRoles()))
+               .map(u->new UserDto(u.getUsername(),u.getEmail(),u.getRoles()))
                .toList();
     }
 }

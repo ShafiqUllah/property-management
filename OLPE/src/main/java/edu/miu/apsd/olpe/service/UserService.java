@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public interface UserService {
     UserDto getById(Long id) throws UserNotFoundException;
-    public UserDto add(UserDto userDto,String password);
+    public UserDto add(UserDto userDto);
     UserDto update(Long userId, UserDto user);
     void delete(Long id);
     Collection<UserDto> getAll();

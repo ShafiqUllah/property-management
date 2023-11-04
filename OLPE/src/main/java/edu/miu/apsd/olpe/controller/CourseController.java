@@ -42,6 +42,7 @@ public class CourseController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<CourseDto> registerNewCourse(@Valid @RequestBody CourseDto newCourse) {
+        System.out.println("Reg new course");
         return new ResponseEntity<>(this.courseService.addNewCourse(newCourse), HttpStatus.CREATED);
     }
 
