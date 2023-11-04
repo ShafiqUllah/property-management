@@ -1,8 +1,7 @@
 package edu.miu.apsd.olpe.controller;
 
-import edu.miu.apsd.olpe.dto.CourseDto;
 import edu.miu.apsd.olpe.dto.StudentCourseDto;
-import edu.miu.apsd.olpe.exception.CourseNotFoundException;
+import edu.miu.apsd.olpe.entity.StudentCourse;
 import edu.miu.apsd.olpe.exception.StudentCourseNotFoundException;
 import edu.miu.apsd.olpe.service.StudentCourseService;
 import jakarta.validation.Valid;
@@ -22,23 +21,23 @@ public class StudentCourseController {
     }
 
     @GetMapping(value = "/list")
-    public ResponseEntity<List<StudentCourseDto>> listOfAllStudentCourses() {
+    public ResponseEntity<List<StudentCourse>> listOfAllStudentCourses() {
         return ResponseEntity.ok(this.studentCourseService.getAllStudentCoursesList());
 
     }
 
     @GetMapping(value = "/get/{studentCourseId}")
-    public ResponseEntity<StudentCourseDto> getStudentCourseById(@PathVariable Integer studentCourseId) throws StudentCourseNotFoundException {
+    public ResponseEntity<StudentCourse> getStudentCourseById(@PathVariable Integer studentCourseId) throws StudentCourseNotFoundException {
         return ResponseEntity.ok(this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId)));
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<StudentCourseDto> registerNewStudentCourse(@Valid @RequestBody StudentCourseDto newStudentCourse) {
+    public ResponseEntity<StudentCourse> registerNewStudentCourse(@Valid @RequestBody StudentCourse newStudentCourse) {
         return new ResponseEntity<>(this.studentCourseService.addNewStudentCourse(newStudentCourse), HttpStatus.CREATED);
     }
 
     @PutMapping(value =  "/update/{studentCourseId}")
-    public ResponseEntity<StudentCourseDto> updateStudentCourse(@PathVariable Integer studentCourseId, @RequestBody StudentCourseDto editedStudentCourse) {
+    public ResponseEntity<StudentCourse> updateStudentCourse(@PathVariable Integer studentCourseId, @RequestBody StudentCourse editedStudentCourse) {
         return new ResponseEntity<>(this.studentCourseService.updateStudentCourse(Long.valueOf(studentCourseId), editedStudentCourse), HttpStatus.OK);
     }
 
@@ -51,8 +50,8 @@ public class StudentCourseController {
 
     //Approve a course for a student
     @PutMapping(value =  "/approve/{studentCourseId}")
-    public ResponseEntity<StudentCourseDto> ApproveStudentCourse(@PathVariable Integer studentCourseId) throws StudentCourseNotFoundException {
-        StudentCourseDto editedStudentCourse =  this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
+    public ResponseEntity<StudentCourse> ApproveStudentCourse(@PathVariable Integer studentCourseId) throws StudentCourseNotFoundException {
+        StudentCourse editedStudentCourse =  this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
         editedStudentCourse.setStatus(true);
         return new ResponseEntity<>(this.studentCourseService.updateStudentCourse(Long.valueOf(studentCourseId), editedStudentCourse), HttpStatus.OK);
     }
@@ -60,11 +59,11 @@ public class StudentCourseController {
 
     //Get all studentCourse list with studentId
     @GetMapping(value = "/get_all/{studentId}")
-    public ResponseEntity<List<StudentCourseDto>> getStudentCourseByStudentOrUserId(@PathVariable Integer studentId) throws StudentCourseNotFoundException {
-        List<StudentCourseDto> studentCourseDtoList = this.studentCourseService.getAllStudentCoursesList()
+    public ResponseEntity<List<StudentCourse>> getStudentCourseByStudentOrUserId(@PathVariable Integer studentId) throws StudentCourseNotFoundException {
+        List<StudentCourse> studentCourseDtoList = this.studentCourseService.getAllStudentCoursesList()
                 .stream()
                 .filter(a->{
-                    if (a.getUser().getUserId() == studentId)
+                    if (a.getStudent_id().getUserId() == studentId)
                         return true;
                     else
                         return false;
@@ -75,11 +74,11 @@ public class StudentCourseController {
 
     //Get only approved studentCourse list with studentId
     @GetMapping(value = "/get_all/approved/{studentId}")
-    public ResponseEntity<List<StudentCourseDto>> getStudentCourseByStudentOrUserIdOnlyApproved(@PathVariable Integer studentId) throws StudentCourseNotFoundException {
-        List<StudentCourseDto> studentCourseDtoList = this.studentCourseService.getAllStudentCoursesList()
+    public ResponseEntity<List<StudentCourse>> getStudentCourseByStudentOrUserIdOnlyApproved(@PathVariable Integer studentId) throws StudentCourseNotFoundException {
+        List<StudentCourse> studentCourseDtoList = this.studentCourseService.getAllStudentCoursesList()
                 .stream()
                 .filter(a->{
-                    if ((a.getUser().getUserId() == studentId) && a.getStatus() == true)
+                    if ((a.getStudent_id().getUserId() == studentId) && a.getStatus() == true)
                         return true;
                     else
                         return false;
@@ -91,7 +90,7 @@ public class StudentCourseController {
     //Cancel StudentCourse by Student if in pending status
     @DeleteMapping(value = "/delete/pending/{studentCourseId}")
     public ResponseEntity<Void> deleteStudentCourseByStudent(@PathVariable Integer studentCourseId) throws StudentCourseNotFoundException {
-        StudentCourseDto studentCourseDto = this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
+        StudentCourse studentCourseDto = this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
         if(studentCourseDto.getStatus() == false){
             this.studentCourseService.deleteStudentCourseById(Long.valueOf(studentCourseId));
             return new ResponseEntity<>(HttpStatus.OK);
@@ -103,8 +102,8 @@ public class StudentCourseController {
 
     //Bookmark course by student
     @PutMapping(value =  "/update/bookmark/{studentCourseId}")
-    public ResponseEntity<StudentCourseDto> bookmarkStudentCourseByStudent(@PathVariable Integer studentCourseId) throws StudentCourseNotFoundException {
-        StudentCourseDto editedStudentCourse = this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
+    public ResponseEntity<StudentCourse> bookmarkStudentCourseByStudent(@PathVariable Integer studentCourseId) throws StudentCourseNotFoundException {
+        StudentCourse editedStudentCourse = this.studentCourseService.getStudentCourseById(Long.valueOf(studentCourseId));
         editedStudentCourse.setBookmark(true);
         return new ResponseEntity<>(this.studentCourseService.updateStudentCourse(Long.valueOf(studentCourseId), editedStudentCourse), HttpStatus.OK);
     }

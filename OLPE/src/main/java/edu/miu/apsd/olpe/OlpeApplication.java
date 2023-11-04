@@ -1,9 +1,9 @@
 package edu.miu.apsd.olpe;
 
-import edu.miu.apsd.olpe.entity.Role;
-import edu.miu.apsd.olpe.entity.RoleTypes;
-import edu.miu.apsd.olpe.entity.User;
+import edu.miu.apsd.olpe.entity.*;
+import edu.miu.apsd.olpe.repository.TeacherCourseRepository;
 import edu.miu.apsd.olpe.repository.RoleRepository;
+import edu.miu.apsd.olpe.repository.StudentCourseRepository;
 import edu.miu.apsd.olpe.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,9 @@ public class OlpeApplication {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+
+    private TeacherCourseRepository teacherCourseRepository;
+    private StudentCourseRepository studentCourseRepository;
 
     public static void main(String[] args) {
         System.out.println("Hello OLPE app, APSD Project");
@@ -61,6 +65,35 @@ public class OlpeApplication {
                     true,true, true, true);
             newStudentUser.setRoles(List.of(new Role(null, RoleTypes.ROLE_STUDENT.toString())));
             userRepository.save(newStudentUser);
+
+            TeacherCourse newTeacherCourse = teacherCourseRepository.save(new TeacherCourse(
+                    "cs489",
+                    "APSD",
+                    newTeacherUser,
+                    false
+                   ));
+
+            TeacherCourse newTeacherCourse2 = teacherCourseRepository.save(new TeacherCourse(
+                    "cs500",
+                    "MPP",
+                    newTeacherUser,
+                    true
+            ));
+
+            studentCourseRepository.save(new StudentCourse(null,
+                    newStudentUser,
+                    newTeacherCourse,
+                    false,
+                    LocalDate.now(),
+                    false));
+
+            studentCourseRepository.save(new StudentCourse(null,
+                    newStudentUser,
+                    newTeacherCourse2,
+                    false,
+                    LocalDate.now(),
+                    true));
+
         }
     }
 

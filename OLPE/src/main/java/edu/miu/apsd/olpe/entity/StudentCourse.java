@@ -20,7 +20,7 @@ public class StudentCourse {
     User student_id;
 
     @ManyToOne
-    Course course;
+    TeacherCourse teacherCourse;
 
     Boolean status;
     LocalDate dateBlock;

@@ -1,10 +1,7 @@
 package edu.miu.apsd.olpe.controller;
 
-import edu.miu.apsd.olpe.dto.CourseDto;
 import edu.miu.apsd.olpe.dto.UserDto;
-import edu.miu.apsd.olpe.exception.CourseNotFoundException;
 import edu.miu.apsd.olpe.exception.UserNotFoundException;
-import edu.miu.apsd.olpe.service.CourseService;
 import edu.miu.apsd.olpe.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "olpeApp/api/v1/service/private/users" )

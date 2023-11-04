@@ -1,6 +1,5 @@
 package edu.miu.apsd.olpe.service.impl;
 
-import edu.miu.apsd.olpe.dto.CourseDto;
 import edu.miu.apsd.olpe.dto.StudentCourseDto;
 import edu.miu.apsd.olpe.entity.StudentCourse;
 import edu.miu.apsd.olpe.exception.StudentCourseNotFoundException;
@@ -21,33 +20,27 @@ public class StudentCourseImpl implements StudentCourseService {
     }
 
     @Override
-    public List<StudentCourseDto> getAllStudentCoursesList() {
-        return this.studentCourseRepository.findAll().stream().map(s-> new StudentCourseDto(s.getStudent_id(),
-                s.getCourse(), s.getStatus(),s.getDateBlock(), s.getBookmark())).toList();
+    public List<StudentCourse> getAllStudentCoursesList() {
+        return this.studentCourseRepository.findAll();
     }
 
     @Override
-    public StudentCourseDto addNewStudentCourse(StudentCourseDto newStudentCourse) {
-        StudentCourse studentCourse = this.studentCourseRepository.save(new StudentCourse(null,
-                newStudentCourse.getUser(),
-                newStudentCourse.getCourse(),
-                newStudentCourse.getStatus(),
-                newStudentCourse.getDateBlock(),
-                newStudentCourse.getBookmark()));
-        return new StudentCourseDto(studentCourse.getStudent_id(),
-                studentCourse.getCourse(),
-                studentCourse.getStatus(),
-                studentCourse.getDateBlock(),
-                studentCourse.getBookmark());
+    public StudentCourse addNewStudentCourse(StudentCourse newStudentCourse) {
+       return this.studentCourseRepository.save(newStudentCourse);
+//        return new StudentCourseDto(studentCourse.getStudent_id(),
+//                studentCourse.getTeacherCourse(),
+//                studentCourse.getStatus(),
+//                studentCourse.getDateBlock(),
+//                studentCourse.getBookmark());
     }
 
     @Override
-    public StudentCourseDto getStudentCourseById(Long studentCourseId) throws StudentCourseNotFoundException {
-        StudentCourse studentCourse = this.studentCourseRepository.findById(studentCourseId).orElseThrow(()->new StudentCourseNotFoundException("Data Not found"));
+    public StudentCourse getStudentCourseById(Long studentCourseId) throws StudentCourseNotFoundException {
+        return  this.studentCourseRepository.findById(studentCourseId).orElseThrow(()->new StudentCourseNotFoundException("Data Not found"));
 
-        return new StudentCourseDto(studentCourse.getStudent_id(),
-                studentCourse.getCourse(),studentCourse.getStatus(),studentCourse.getDateBlock(),
-                studentCourse.getBookmark());
+//        return new StudentCourseDto(studentCourse.getStudent_id(),
+//                studentCourse.getTeacherCourse(),studentCourse.getStatus(),studentCourse.getDateBlock(),
+//                studentCourse.getBookmark());
     }
 
     @Override
@@ -56,19 +49,19 @@ public class StudentCourseImpl implements StudentCourseService {
     }
 
     @Override
-    public StudentCourseDto updateStudentCourse(Long studentCourseId, StudentCourseDto editedStudentCourse) {
+    public StudentCourse updateStudentCourse(Long studentCourseId, StudentCourse editedStudentCourse) {
         var studentCourse = studentCourseRepository.findById(studentCourseId).orElseThrow();
 
-        studentCourse.setStudent_id(editedStudentCourse.getUser());
-        studentCourse.setCourse(editedStudentCourse.getCourse());
+        studentCourse.setStudent_id(editedStudentCourse.getStudent_id());
+        studentCourse.setTeacherCourse(editedStudentCourse.getTeacherCourse());
         studentCourse.setStatus(editedStudentCourse.getStatus());
         studentCourse.setDateBlock(editedStudentCourse.getDateBlock());
         studentCourse.setBookmark(editedStudentCourse.getBookmark());
-        studentCourseRepository.save(studentCourse);
+        return studentCourseRepository.save(studentCourse);
 
-        return new StudentCourseDto(studentCourse.getStudent_id(),
-                studentCourse.getCourse(),studentCourse.getStatus(),studentCourse.getDateBlock(),
-                studentCourse.getBookmark());
+//        return new StudentCourseDto(studentCourse.getStudent_id(),
+//                studentCourse.getTeacherCourse(),studentCourse.getStatus(),studentCourse.getDateBlock(),
+//                studentCourse.getBookmark());
 
     }
 }

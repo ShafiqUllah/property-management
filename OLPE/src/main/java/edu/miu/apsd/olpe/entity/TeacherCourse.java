@@ -4,11 +4,9 @@ package edu.miu.apsd.olpe.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Entity
 @Data
-public class Course {
+public class TeacherCourse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -21,17 +19,17 @@ public class Course {
     User instructor;
     Boolean courseApprovalStatus;
 
-    public Course() {
+    public TeacherCourse() {
         this(null,null,null,null,null);
 
     }
 
-    public Course(String courseCode, String courseName, User instructor, Boolean courseApprovalStatus) {
+    public TeacherCourse(String courseCode, String courseName, User instructor, Boolean courseApprovalStatus) {
 
         this(null,courseCode,courseName,instructor,courseApprovalStatus);
     }
 
-    public Course(Long id, String courseCode, String courseName, User instructor, Boolean courseApprovalStatus) {
+    public TeacherCourse(Long id, String courseCode, String courseName, User instructor, Boolean courseApprovalStatus) {
         this.id = id;
         this.courseCode = courseCode;
         this.courseName = courseName;
