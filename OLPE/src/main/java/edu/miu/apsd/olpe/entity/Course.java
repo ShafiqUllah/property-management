@@ -1,10 +1,7 @@
 package edu.miu.apsd.olpe.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -16,18 +13,20 @@ public class Course {
 
     String courseId;
     String courseName;
-    String instructorId;
+
+    @ManyToOne
+    User instructorId;
     Boolean courseApprovalStatus;
 
     public Course() {
         this(null, null,null,null,null);
     }
 
-    public Course(String courseId, String courseName, String instructorId, Boolean courseApprovalStatus) {
+    public Course(String courseId, String courseName, User instructorId, Boolean courseApprovalStatus) {
         this(null, courseId,courseName,instructorId,courseApprovalStatus);
     }
 
-    public Course(Long id, String courseId, String courseName, String instructorId, Boolean courseApprovalStatus) {
+    public Course(Long id, String courseId, String courseName, User instructorId, Boolean courseApprovalStatus) {
         this.id = id;
         this.courseId = courseId;
         this.courseName = courseName;
